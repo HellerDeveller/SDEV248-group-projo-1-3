@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://btt1bxhhj03wl"]
+
+[ext_resource type="Texture2D" uid="uid://d3ad1vi4l3ofs" path="res://sprites/idle.png" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://74yawii43jxh" path="res://scripts/player.gd" id="1_v6fml"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v6fml"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_p0vlq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3li8b"]
+size = Vector2(12, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6fml"]
+size = Vector2(8, 7.5)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_v6fml")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_v6fml")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3li8b")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_v6fml")
+
+[connection signal="area_exited" from="Hurtbox" to="." method="_on_hurtbox_area_exited"]
