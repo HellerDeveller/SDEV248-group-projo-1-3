@@ -156,5 +156,6 @@ scale = Vector2(1.2, 1.2)
 target_scene = ExtResource("9_c1pb6")
 is_final_door = true
 
-[node name="Enemy7" parent="." instance=ExtResource("11_e1cbu")]
-position = Vector2(815, 261)
+[node name="Enemy7" parent="." groups=["enemies"] instance=ExtResource("11_e1cbu")]
+position = Vector2(861, 143)
+room_coord = Vector2(1, 0)
