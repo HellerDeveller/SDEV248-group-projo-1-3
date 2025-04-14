@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://ceh2w4ybx6rbj"]
+[gd_scene load_steps=15 format=4 uid="uid://ceh2w4ybx6rbj"]
 
 [ext_resource type="Texture2D" uid="uid://daam1grrtcght" path="res://tiles/dev-tiles.png" id="1_7ykc4"]
 [ext_resource type="Script" uid="uid://cfxvs7yjyneey" path="res://scripts/main_scene.gd" id="1_rt2n2"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bbjuj4duc4raw" path="res://scenes/WarpArea.tscn" id="8_18nlu"]
 [ext_resource type="PackedScene" uid="uid://cyimyxd1qng7j" path="res://scenes/door.tscn" id="8_c1pb6"]
 [ext_resource type="PackedScene" uid="uid://15e71y5v850u" path="res://scenes/LevelComplete.tscn" id="9_c1pb6"]
+[ext_resource type="PackedScene" uid="uid://6vup4dbnov3e" path="res://scenes/EnemyVariant.tscn" id="11_e1cbu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pu3yx"]
 texture = ExtResource("1_7ykc4")
@@ -25,24 +26,24 @@ use_texture_padding = false
 texture = ExtResource("3_6wevv")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, -5.33333, -5.33333, -5.33333, -5.33333, 16, -16, 16)
 1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, -5.33333, -16, -5.33333)
 2:0/0 = 0
-2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, 5.33333, 16, 5.33333, -5.33333, -16, -5.33333)
 3:0/0 = 0
 0:1/0 = 0
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, -5.33333, -16, -5.33333, 16, -16, 16)
 1:1/0 = 0
 2:1/0 = 0
-2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(5.33333, -16, 16, -16, 16, 16, 5.33333, 16)
 3:1/0 = 0
 0:2/0 = 0
-0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, -5.33333, -16, -5.33333, 5.33333, 16, 5.33333, 16, 16, -16, 16)
 1:2/0 = 0
-1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 5.33333, 16, 5.33333, 16, 16, -16, 16)
 2:2/0 = 0
-2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(5.33333, 5.33333, 5.33333, -16, 16, -16, 16, 16, -16, 16, -16, 5.33333)
 3:2/0 = 0
 0:3/0 = 0
 0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -106,10 +107,6 @@ player_path = NodePath("../Player")
 [node name="Enemy2" parent="." groups=["enemies"] instance=ExtResource("2_pw63i")]
 position = Vector2(148, 245)
 
-[node name="Enemy3" parent="." groups=["enemies"] instance=ExtResource("2_pw63i")]
-position = Vector2(825, 131)
-room_coord = Vector2(1, 0)
-
 [node name="Enemy4" parent="." groups=["enemies"] instance=ExtResource("2_pw63i")]
 position = Vector2(193, -282)
 room_coord = Vector2(0, -1)
@@ -158,3 +155,6 @@ rotation = 1.5708
 scale = Vector2(1.2, 1.2)
 target_scene = ExtResource("9_c1pb6")
 is_final_door = true
+
+[node name="Enemy7" parent="." instance=ExtResource("11_e1cbu")]
+position = Vector2(815, 261)

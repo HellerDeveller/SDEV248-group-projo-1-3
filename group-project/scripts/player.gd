@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 @export var projectile_scene: PackedScene
-@export var move_speed: float = 80.0
+@export var move_speed: float = 100.0
 @export var max_health: int = 3
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -10,6 +10,10 @@ class_name Player
 var current_health: int = max_health
 var facing := Vector2.DOWN # default facing dir
 var is_attacking := false
+var knockback_vector := Vector2.ZERO
+var knockback_time := 0.2
+var knockback_timer := 0.0
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
@@ -18,29 +22,35 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	var direction := Vector2.ZERO
 	
-	# use elif to ensure only one dir active; prevents diagonal movement
-	# right movement - 
-	if Input.is_action_pressed("ui_right"):
-		direction.x += 1
-	# left movement
-	elif Input.is_action_pressed("ui_left"):
-		direction.x -= 1
-	# down movement
-	elif Input.is_action_pressed("ui_down"):
-		direction.y += 1
-	# up movement
-	elif Input.is_action_pressed("ui_up"):
-		direction.y -= 1
-
-	direction = direction.normalized()
-	velocity = direction * move_speed
-	move_and_slide()
+	if knockback_timer > 0:
+		velocity = knockback_vector
+		knockback_timer -= _delta
+	else:
 	
-	if direction != Vector2.ZERO:
-		facing = direction
+		# use elif to ensure only one dir active; prevents diagonal movement
+		# right movement - 
+		if Input.is_action_pressed("ui_right"):
+			direction.x += 1
+		# left movement
+		elif Input.is_action_pressed("ui_left"):
+			direction.x -= 1
+		# down movement
+		elif Input.is_action_pressed("ui_down"):
+			direction.y += 1
+		# up movement
+		elif Input.is_action_pressed("ui_up"):
+			direction.y -= 1
+
+		direction = direction.normalized()
+		velocity = direction * move_speed
 		
-	if not is_attacking:
+		if direction != Vector2.ZERO:
+			facing = direction
+		
+	if not is_attacking and knockback_timer <= 0:
 		update_facing(direction)
+	
+	move_and_slide()
 	
 # fill out func later for advanced direction flipping etc
 func update_facing(direction: Vector2) -> void:
@@ -74,6 +84,21 @@ func take_damage(amount: int = 1) -> void:
 	
 	var hud = get_tree().root.get_node("MainScene/Hud")
 	hud.set_health(current_health)
+	
+	if facing.y > 0:
+			sprite.play("hurt_down")
+			sprite.flip_h = false
+			
+	elif facing.y < 0:
+			sprite.play("hurt_up")
+			sprite.flip_h = false
+	else:
+			sprite.play("hurt_side")
+			sprite.flip_h = facing.x < 0
+	
+	# apply knockback
+	knockback_vector = -facing.normalized() * 150
+	knockback_timer = knockback_time
 	
 	if current_health <= 0:
 		print("player out of lives")

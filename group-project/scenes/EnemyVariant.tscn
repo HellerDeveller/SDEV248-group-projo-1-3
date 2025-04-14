@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://6vup4dbnov3e"]
+
+[ext_resource type="Script" uid="uid://bly31yx0tca0m" path="res://scripts/enemy.gd" id="1_dojmp"]
+[ext_resource type="Texture2D" uid="uid://bvj4txarwexlf" path="res://sprites/boss-sheet.png" id="2_dojmp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dx8jp"]
+atlas = ExtResource("2_dojmp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jbtk5"]
+atlas = ExtResource("2_dojmp")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5wwv6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dx8jp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jbtk5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vja8"]
+size = Vector2(36, 25.7969)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_55jtl"]
+radius = 40.0125
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55jtl"]
+size = Vector2(42, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpr68"]
+size = Vector2(31, 21)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_dojmp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5wwv6")
+frame_progress = 0.961248
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 5.10156)
+shape = SubResource("RectangleShape2D_1vja8")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_55jtl")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(1, 5)
+shape = SubResource("RectangleShape2D_55jtl")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0.5, 5.5)
+shape = SubResource("RectangleShape2D_mpr68")
+
+[node name="PatrolPoints" type="Node2D" parent="."]
+
+[node name="Point 1" type="Marker2D" parent="PatrolPoints"]
+position = Vector2(43, -30)
+
+[node name="Point 2" type="Marker2D" parent="PatrolPoints"]
+position = Vector2(40, 28)
+
+[node name="Point 3" type="Marker2D" parent="PatrolPoints"]
+position = Vector2(-42, 24)
+
+[node name="Point 4" type="Marker2D" parent="PatrolPoints"]
+position = Vector2(-41, -33)
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

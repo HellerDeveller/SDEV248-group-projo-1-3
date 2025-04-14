@@ -27,6 +27,9 @@ var damage_timer := 0.0
 var hurtbox_in_hitbox: Area2D = null
 var current_health: int = max_health
 var patrol_points: Array[Vector2] = []
+var knockback_vector := Vector2.ZERO
+var knockback_timer := 0.0
+var knockback_duration := 0.15
 
 
 func _ready():
@@ -40,7 +43,13 @@ func _ready():
 	detection_area.body_exited.connect(_on_player_exited)
 	
 func _physics_process(delta: float) -> void:
-	
+	# handle knockback override
+	if knockback_timer > 0:
+		velocity = knockback_vector
+		knockback_timer -= delta
+		move_and_slide()
+		return
+		
 	# damage cooldown timer
 	if not can_damage:
 		damage_timer -= delta
@@ -128,9 +137,16 @@ func _on_hitbox_area_exited(area: Area2D) -> void:
 		hurtbox_in_hitbox = null
 		
 		
-func take_damage(amount: int = 1) -> void:
+func take_damage(amount: int = 1, knockback_dir: Vector2 = Vector2.ZERO) -> void:
 	current_health -= amount
 	print("enemy took damage. current health: ", current_health)
+	
+	# apply knockback from player
+	if knockback_dir != Vector2.ZERO:
+		knockback_vector = knockback_dir.normalized() * 150
+		knockback_timer = knockback_duration
+	
+	flash_red()
 	
 	if current_health <= 0:
 		die()
@@ -161,3 +177,9 @@ func die():
 				print("unlocking warp for defeated room:  ", room_coord)
 				warp.check_activation()
 	queue_free()
+
+
+func flash_red():
+	sprite.modulate = Color(1, 0.3, 0.3) # red tint
+	await get_tree().create_timer(0.1).timeout
+	sprite.modulate = Color(1, 1, 1) # back to normal

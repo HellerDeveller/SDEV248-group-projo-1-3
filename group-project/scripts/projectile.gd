@@ -12,7 +12,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if area.name == "Hurtbox":
 		var enemy = area.get_parent()
 		if enemy is Enemy:
-			enemy.take_damage(1)
+			enemy.take_damage(1, direction.normalized())
 			queue_free()
 
 
@@ -21,7 +21,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Hurtbox":
 		var enemy = body.get_parent()
 		if enemy is Enemy:
-			enemy.take_damage(1)
+			enemy.take_damage(1, direction.normalized())
 		queue_free()
 	elif body is StaticBody2D or body is TileMapLayer:
 		queue_free()
