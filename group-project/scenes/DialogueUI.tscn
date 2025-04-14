@@ -1,0 +1,130 @@
+[gd_scene load_steps=10 format=3 uid="uid://c4kopbqj64bx5"]
+
+[ext_resource type="Script" uid="uid://0oqkv5w768f8" path="res://scripts/dialogue_ui.gd" id="1_0qyo7"]
+[ext_resource type="FontFile" uid="uid://crbmjmvloxw8h" path="res://fonts/VT323-Regular.ttf" id="2_7d2kc"]
+[ext_resource type="Texture2D" uid="uid://c83k08jxq1qto" path="res://sprites/npc-sheet.png" id="3_rmr67"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7d2kc"]
+bg_color = Color(0.099986, 0.099986, 0.099986, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7de8d"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_color = Color(0.00566115, 0.00566115, 0.00566114, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmr67"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7de8d"]
+atlas = ExtResource("3_rmr67")
+region = Rect2(0, 0, 32, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmtye"]
+atlas = ExtResource("3_rmr67")
+region = Rect2(32, 0, 32, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xkfy2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7de8d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmtye")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="DialogueUi" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0qyo7")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7d2kc")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 63.0
+offset_top = 22.0
+offset_right = 240.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("2_7d2kc")
+theme_override_font_sizes/font_size = 8
+autowrap_mode = 2
+
+[node name="ContinueIndicator" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 174.0
+offset_top = 47.0
+offset_right = 237.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("2_7d2kc")
+theme_override_font_sizes/font_size = 8
+text = "press x to continue"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel"]
+layout_mode = 0
+offset_top = -26.0
+offset_right = 128.0
+theme_override_fonts/font = ExtResource("2_7d2kc")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_7de8d")
+text = "mysterious stranger"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_right = 52.0
+offset_bottom = 63.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rmr67")
+
+[node name="PotraitSprite" type="AnimatedSprite2D" parent="Panel/Panel"]
+position = Vector2(26, 38)
+scale = Vector2(1.6875, 1.82143)
+sprite_frames = SubResource("SpriteFrames_xkfy2")
+frame_progress = 0.766471
+flip_h = true
+
+[node name="ChoiceBox" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 32.0
+offset_right = 234.0
+offset_bottom = 49.0
+
+[node name="YesButton" type="Button" parent="ChoiceBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7d2kc")
+theme_override_font_sizes/font_size = 8
+text = "> yes"
+
+[node name="NoButton" type="Button" parent="ChoiceBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7d2kc")
+theme_override_font_sizes/font_size = 8
+text = "> no"
+
+[connection signal="choice_made" from="." to="." method="_on_choice_made"]
+[connection signal="pressed" from="ChoiceBox/YesButton" to="." method="_on_yes_button_pressed"]
+[connection signal="pressed" from="ChoiceBox/NoButton" to="." method="_on_no_button_pressed"]

@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://duvdv3077gggl"]
+
+[ext_resource type="FontFile" uid="uid://dm3p0ufapfbym" path="res://fonts/Silkscreen-Regular.ttf" id="1_6bcno"]
+[ext_resource type="Script" uid="uid://bqb7jy4gmjfid" path="res://scripts/game_over.gd" id="1_qae0b"]
+[ext_resource type="Theme" uid="uid://d0038i1f2i7cb" path="res://themes/ui_theme.tres" id="3_vuicl"]
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_qae0b")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00392157, 0.00392157, 0.00392157, 0.741176)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_6bcno")
+theme_override_font_sizes/font_size = 36
+text = "game over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TryAgainButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme = ExtResource("3_vuicl")
+text = "try again"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/TryAgainButton" to="." method="_on_try_again_button_pressed"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bamdc1bwlth53"]
+
+[sub_resource type="GDScript" id="GDScript_38eme"]
+script/source = "extends StaticBody2D
+
+#@export var connected_rooms: Array[Vector2] = []
+#
+#@onready var collider: CollisionShape2D = $CollisionShape2D
+#func _ready():
+	#print(\"exit ready: \", name)
+	#add_to_group(\"exits\")
+	#
+#func set_active_for_room(room: Vector2, is_cleared: bool) -> void:
+	#if connected_rooms.has(room):
+		#collider.set_deferred(\"disabled\", is_cleared)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_38eme"]
+size = Vector2(73.5, 66.75)
+
+[node name="Exit" type="StaticBody2D"]
+collision_layer = 2
+script = SubResource("GDScript_38eme")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_38eme")

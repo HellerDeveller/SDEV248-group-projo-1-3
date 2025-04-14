@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://cao2ak0lt6o8m"]
+
+[ext_resource type="Script" uid="uid://4h7076bprq46" path="res://scripts/hud.gd" id="1_qpvh6"]
+[ext_resource type="Texture2D" uid="uid://ddtedvtuqu53r" path="res://sprites/heart.png" id="2_fls4u"]
+[ext_resource type="FontFile" uid="uid://dm3p0ufapfbym" path="res://fonts/Silkscreen-Regular.ttf" id="3_1etfg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1etfg"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[node name="Hud" type="CanvasLayer"]
+script = ExtResource("1_qpvh6")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 1.0
+offset_right = 96.0
+offset_bottom = 34.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1etfg")
+
+[node name="HeartContainer" type="HBoxContainer" parent="."]
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 94.0
+offset_bottom = 17.0
+alignment = 1
+
+[node name="Heart1" type="TextureRect" parent="HeartContainer"]
+layout_mode = 2
+texture = ExtResource("2_fls4u")
+expand_mode = 3
+stretch_mode = 2
+
+[node name="Heart2" type="TextureRect" parent="HeartContainer"]
+layout_mode = 2
+texture = ExtResource("2_fls4u")
+expand_mode = 2
+stretch_mode = 2
+
+[node name="Heart3" type="TextureRect" parent="HeartContainer"]
+layout_mode = 2
+texture = ExtResource("2_fls4u")
+expand_mode = 2
+stretch_mode = 2
+
+[node name="EnemyTracker" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 19.0
+offset_right = 80.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("3_1etfg")
+theme_override_font_sizes/font_size = 8
+text = "0/0"
+horizontal_alignment = 1
+vertical_alignment = 1

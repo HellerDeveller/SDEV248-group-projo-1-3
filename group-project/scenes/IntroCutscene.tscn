@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://modiyqvx7f3i"]
+
+[ext_resource type="Script" uid="uid://vchtjpd87xdi" path="res://scripts/intro_cutscene.gd" id="1_fgsq1"]
+[ext_resource type="FontFile" uid="uid://crbmjmvloxw8h" path="res://fonts/VT323-Regular.ttf" id="2_872o4"]
+[ext_resource type="Theme" uid="uid://d0038i1f2i7cb" path="res://themes/ui_theme.tres" id="3_nuwxb"]
+
+[node name="IntroCutscene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fgsq1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 384.0
+color = Color(0.0962047, 0.0962048, 0.0962047, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 63.0
+offset_top = 51.0
+offset_right = 578.0
+offset_bottom = 243.0
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_872o4")
+theme_override_font_sizes/font_size = 18
+text = "."
+autowrap_mode = 2
+
+[node name="BeginButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 451.0
+offset_top = 330.0
+offset_right = 554.0
+offset_bottom = 359.0
+theme = ExtResource("3_nuwxb")
+text = "begin"
+
+[connection signal="pressed" from="BeginButton" to="." method="_on_begin_button_pressed"]

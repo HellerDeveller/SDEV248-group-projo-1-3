@@ -1,0 +1,43 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://d0038i1f2i7cb"]
+
+[ext_resource type="FontFile" uid="uid://dm3p0ufapfbym" path="res://fonts/Silkscreen-Regular.ttf" id="1_xxbg1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gfhtu"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qa7hf"]
+bg_color = Color(0.158472, 0.158472, 0.158472, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.0110876, 0.0110876, 0.0110876, 1)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkgan"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[resource]
+Button/fonts/font = ExtResource("1_xxbg1")
+Button/styles/hover = SubResource("StyleBoxFlat_gfhtu")
+Button/styles/normal = SubResource("StyleBoxFlat_qa7hf")
+Button/styles/pressed = SubResource("StyleBoxFlat_jkgan")

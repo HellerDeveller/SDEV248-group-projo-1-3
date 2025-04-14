@@ -1,13 +1,14 @@
 extends CharacterBody2D
+
 class_name Enemy
 
 @export var move_speed: float = 40.0
-@export var patrol_points: Array[Vector2] = []
 @export var chase_speed: float = 60.0
 @export var chase_timeout: float = 2.0 # how long to keep chasing after exiting detection zone
 @export var patrol_wait_time: float = 0.75 # how long to pause at each patrol pt
 @export var damage_cooldown: float = 2.0 # seconds between hits
-
+@export var max_health: int = 3
+@export var room_coord: Vector2 = Vector2.ZERO
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var detection_area: Area2D = $PlayerDetection
@@ -24,9 +25,17 @@ var chase_timer: float = 0.0
 var can_damage := true
 var damage_timer := 0.0
 var hurtbox_in_hitbox: Area2D = null
+var current_health: int = max_health
+var patrol_points: Array[Vector2] = []
 
 
 func _ready():
+	
+	# load patrol points
+	for point in $PatrolPoints.get_children():
+		if point is Marker2D:
+			patrol_points.append(point.global_position)
+			
 	detection_area.body_entered.connect(_on_player_entered)
 	detection_area.body_exited.connect(_on_player_exited)
 	
@@ -107,21 +116,6 @@ func _on_player_entered(body):
 func _on_player_exited(body):
 	if body is Player:
 		chase_timer = chase_timeout # start countdown
-		
-
-## toggle player track to true when enter
-#func _on_hitbox_body_entered(body):
-	#if body is Player:
-		#player_in_hitbox = true
-		#player = body
-		#print("player entered hitbox") # debug
-#
-## toggle player track to false when exit
-#func _on_hitbox_body_exited(body):
-	#if body is Player:
-		#player_in_hitbox = false
-		#player = null
-		#print("player left hitbox") # debug
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
@@ -132,3 +126,38 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 func _on_hitbox_area_exited(area: Area2D) -> void:
 	if area.name == "Hurtbox" and area == hurtbox_in_hitbox:
 		hurtbox_in_hitbox = null
+		
+		
+func take_damage(amount: int = 1) -> void:
+	current_health -= amount
+	print("enemy took damage. current health: ", current_health)
+	
+	if current_health <= 0:
+		die()
+		
+		
+func die():
+	print("enemy has perished")
+	
+	# get players current room
+	var player = get_tree().get_root().get_node("MainScene/Player")
+	var screen_size = Vector2(640, 384)
+	var current_room = Vector2(
+		floor(player.global_position.x / screen_size.x),
+		floor(player.global_position.y / screen_size.y)
+	)
+	
+	if current_room == room_coord:
+		var hud = get_tree().get_root().get_node("MainScene/Hud")
+		hud.increment_enemy_kill()
+		
+		var main_scene = get_tree().get_root().get_node("MainScene")
+		main_scene.update_enemies_in_room(current_room)
+		
+		main_scene.check_level_completion() # check if entire lvl cleared
+		
+		for warp in get_tree().get_nodes_in_group("warps"):
+			if warp.target_room == room_coord:
+				print("unlocking warp for defeated room:  ", room_coord)
+				warp.check_activation()
+	queue_free()
